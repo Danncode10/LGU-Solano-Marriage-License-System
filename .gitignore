@@ -1,0 +1,41 @@
+# Gitignore for Next.js (Frontend) and FastAPI (Backend) with Supabase
+
+# Node.js / Next.js
+node_modules
+.next/
+out/
+.env
+.env.local
+.env.development.local
+.env.production.local
+pm-debug.log*
+yarn-debug.log*
+.pnp/
+.pnp.js
+
+# Python / FastAPI
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+virtualenv/
+venv/
+.python-version
+
+# Supabase
+# If using local Supabase setup, may need to ignore specific files
+# For hosted Supabase, credentials will be in .env files ignored above
+
+# VS Code
+.vscode/
+
+# Operating System
+.DS_Store
+
+# Excel files (if generated locally and not meant for version control)
+*.xlsx
+*.xls
+
+# Log files
+*.log
