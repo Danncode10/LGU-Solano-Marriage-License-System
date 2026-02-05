@@ -113,4 +113,4 @@ The system is a web application accessible via a browser. It is built as an inte
 
 ## 1.10 Monetization Strategy
 
-"""The project is designed as an internal tool for LGU Solano, Nueva Vizcaya. Therefore, it is free for the LGU and its employees and serves as a public service for applicants. There are no premium features, ads, or direct monetization strategies as it's a government-commissioned internal system."""
+The project is designed as an internal tool for LGU Solano, Nueva Vizcaya. Therefore, it is free for the LGU and its employees and serves as a public service for applicants. There are no premium features, ads, or direct monetization strategies as it's a government-commissioned internal system.

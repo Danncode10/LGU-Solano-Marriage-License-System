@@ -53,7 +53,7 @@ The system must evaluate the ages of both the Male (M) and Female (F) applicants
 
 1. Applicants fill out a Next.js form (Name, Age, Address, Parents' Info).
 2. Data is saved to Supabase `applications` table.
-3. A **Unique 6-Character Code** (e.g., `SOL-X9`) is generated and shown to the couple.
+3. A **Unique 6-Character Code** (e.g., `000-010`) is generated and shown to the couple. This code serves as an application index for admins to check applications and for employees to retrieve applications and take photos via the website on their phones.
 
 ### Phase 2: Employee Processing (Internal)
 
