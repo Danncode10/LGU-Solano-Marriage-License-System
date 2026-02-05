@@ -2,147 +2,115 @@
 
 ## 1.1 Problem Statement
 
-**Questions**
-
-* What problem am I solving?
-* Who experiences this problem?
-* How often does the problem occur?
-* Why is this problem worth solving?
-* What happens if this problem remains unsolved?
-
-**Suggested Answer Guide**
-
-> “Users struggle with ___ because ___. This causes ___ and results in ___.”
+Users (LCR employees and applicants) struggle with the manual and often error-prone process of marriage license application intake and document generation because it is time-consuming and prone to legal non-compliance. This causes inefficiencies for the LCR and potential delays/issues for applicants, resulting in a suboptimal and outdated system.
 
 ---
 
 ## 1.2 Target Users
 
-**Questions**
-
-* Who are the primary users?
-* Are there secondary users or admins?
-* What is their technical skill level (This refers to how comfortable users are with technology and digital platforms.) ?
-* What devices do they commonly use?
-
-**Suggested Answer Guide**
-
-> “Primary users are ___ with ___ level of technical skill, mostly using ___ devices.”
+Primary users are LCR employees with moderate technical skill, mostly using desktop/laptop devices. Secondary users are applicants who will use various devices. Admins are also identified as users.
 
 ---
 
-## 1.3 Project Goals (Version 1 Focus)
+## 1.3 Project Goals
 
-**Questions**
-
-* What is the single most important outcome?
-* What must the system do *perfectly*?
-* What can be ignored for now?
-
-**Suggested Answer Guide**
-
-> “Version 1 succeeds if users can ___ without ___.”
+The project succeeds if LCR employees can automate the marriage license application intake and generate legally compliant Excel documents without manual data entry errors or non-compliance issues.
 
 ---
 
 ## 1.4 Competition & Market Scan
 
-**Questions**
-
-* What existing solutions exist?
-* What features do they offer?
-* What do users complain about?
-* What feature is missing or poorly done?
-
-**Suggested Answer Guide**
-
-> “Competitors solve ___ but fail at ___. My project focuses on ___.”
+Currently, there seem to be no direct digital competitors for this specific localized process. The primary 'competitor' is the existing manual, paper-based system, which is inefficient and prone to errors. This project focuses on automating and digitizing this process for the LGU Solano, improving efficiency and compliance.
 
 ---
 
 ## 1.5 Feature Definition & Scope Control
 
-**Questions**
+MUST:
+*   Applicant intake form (Next.js)
+*   Data saving to Supabase `applications` table
+*   Unique 6-Character Code generation (e.g., `000-010`), serving as an application index for admins to check applications and for employees to retrieve applications and take photos via the website on their phones.
+*   Employee login (Supabase Auth - Role: `employee`)
+*   Retrieve application by Unique Code
+*   Webcam photo capture and upload to Supabase Storage
+*   "Generate License" functionality
+*   FastAPI backend for document generation
+*   `openpyxl` for Excel generation
+*   Age-based and address-based sheet generation logic
+*   Data and photo injection into Excel
+*   Admin role with full access (manage employees, view logs)
+*   Employee role (search, take photos, generate/download files)
+*   Row Level Security (RLS) for applicants
+*   Pydantic models for validation
+*   Excel cleanup (removing irrelevant sheets)
 
-* What are MUST-HAVE features?
-* What are NICE-TO-HAVE features?
-* What features are explicitly excluded?
+NICE:
+*   Advanced reporting features
+*   More comprehensive audit trails
+*   User interface enhancements beyond core functionality
 
-**Suggested Answer Guide**
-
-> MUST: Authentication, core workflow
-> NICE: Analytics, themes
-> OUT: AI, mobile app (Version 1)
+OUT:
+*   Features related to other government services
+*   Complex integrations with external systems beyond Supabase
+*   Non-core document types
 
 ---
 
 ## 1.6 Platform & Project Type
 
-**Questions**
-
-* Is this a website by default?
-* Will it expand to mobile, AI, or robotics?
-* Does it require real-time processing?
-* Does it integrate with hardware?
-
-**Suggested Answer Guide**
-
-> “Version 1 is a web application; mobile is planned for Version 4.”
+The system is a web application accessible via a browser. It is built as an internal tool for the LCR, with a public-facing intake form. There is no explicit mention of expansion to mobile, AI, or robotics, nor does it require real-time processing beyond standard web application responsiveness. It integrates with webcam hardware for photo capture.
 
 ---
 
 ## 1.7 User Requirements
 
-**Questions**
+*   **Applicants:**
+    *   Fill out a Next.js form with personal and parental information.
+    *   Receive a Unique 6-Character Code upon submission.
+    *   Restricted from reading other applicants' data.
+*   **Employees:**
+    *   Log in to the system.
+    *   Search and retrieve applications using the Unique 6-Character Code (which can be input from a phone via the website).
+    *   Use a built-in webcam or phone camera to take applicant photos.
+    *   Upload photos to Supabase Storage.
+    *   Generate and download legally compliant marriage license documents.
+    *   Restricted from deleting records.
+*   **Admins:**
+    *   Manage employees (Create/Delete).
+    *   View database logs and check applications using the Unique 6-Character Code as an index.
+    *   Full access to system functionalities.
 
-* What actions can users perform?
-* What actions are restricted?
-* What errors must be user-friendly?
-* Accessibility needs?
+*   **User-Friendly Errors:**
+    *   System must block applications if an applicant is below 18 (R.A. 11596).
+    *   Validation errors for age ranges must be handled gracefully (Pydantic models).
+    *   Clear feedback for successful application submission and document generation.
+
+*   **Accessibility Needs:** Not explicitly mentioned in the project spec, implying standard web accessibility practices should be followed for both the public-facing form and internal employee interface.
 
 ---
 
 ## 1.8 System Requirements
 
-**Questions**
-
-* Expected number of users?
-* Response time expectations?
-* Availability requirements?
-* Storage needs?
-
-**Suggested Answer Guide**
-
-> “System should support 1k users with <500ms response time.”
+*   **Expected number of users:**
+    *   LCR Employees/Admins: Likely a small number (e.g., 5-10 concurrent users).
+    *   Applicants: Potentially higher, but not concurrent for document generation (intake is asynchronous). (e.g., 50-100 unique applicants per day).
+*   **Response time expectations:**
+    *   Applicant form submission: Fast, near real-time.
+    *   Employee application retrieval: Fast, near real-time.
+    *   Document generation: Reasonable, depending on complexity, but should not exceed a few seconds (e.g., < 5 seconds).
+*   **Availability requirements:** High availability during LCR operating hours.
+*   **Storage needs:**
+    *   Database (Supabase PostgreSQL): To store application data.
+    *   File Storage (Supabase Storage): For applicant photos. The capacity should scale with the number of applications/photos over time.
 
 ---
 
-## 1.9 Software Evolution Roadmap
+## 1.9 Software Evolution
 
-**Questions**
+*   The system's core functionality includes applicant intake, employee processing (search, photo, generate), and legally compliant document generation based on age and address logic. The focus is on automating the current manual process.
 
-* What is Version 1?
-* What improves in Version 2?
-* When does AI appear?
-* When does mobile appear?
-
-**Suggested Answer Guide**
-
-* V1: Core functionality
-* V2: UI/UX
-* V3: AI / automation
-* V4: Mobile app
+---
 
 ## 1.10 Monetization Strategy
 
-**Questions**
-
-* Does this web/app have premium features?
-* Is it free?
-* Does it run ads?
-
-**Suggested Answer Guide**
-
-> “The app is ___ (free/paid/ads-supported). Premium features include ___.”
-
----
+The project is designed as an internal tool for LGU Solano, Nueva Vizcaya. Therefore, it is free for the LGU and its employees and serves as a public service for applicants. There are no premium features, ads, or direct monetization strategies as it's a government-commissioned internal system.
