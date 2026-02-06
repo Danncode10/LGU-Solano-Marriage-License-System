@@ -2,9 +2,10 @@
 
 ## 2.1 Functional Requirements
 
-*   **Applicant Intake:**
-    *   **Function:** Allow applicants to fill out a Next.js form with personal, age, address, and parents' information.
-    *   **Trigger:** Applicant accesses the public-facing form.
+*   **Applicant Intake (Flexible):**
+    *   **Function:** Allow applicants to fill out a Next.js form with personal, age, address, and parents' information  (self-service option).
+    *   **Function:** Allow LCR employees to fill out the Next.js form on behalf of applicants through the internal system (employee-assisted option).
+    *   **Trigger:** Applicant accesses the public-facing form OR Employee accesses the form via the internal system.
     *   **Output:** Data saved to Supabase `applications` table; a unique 6-character code (e.g., `000-010`) is generated and displayed to the couple.
 
 *   **Employee Processing:**
@@ -79,7 +80,8 @@
 ## 2.5 Acceptance Criteria
 
 *   **Applicant Intake:**
-    *   An applicant successfully completes and submits the online form.
+    *   An applicant successfully completes and submits the online form (self-service).
+    *   An LCR employee successfully completes and submits the online form on behalf of an applicant (employee-assisted).
     *   A unique 6-character code is generated and displayed to the applicant upon submission.
     *   All submitted data is accurately stored in the Supabase `applications` table.
     *   Applications from individuals under 18 years old are rejected with an appropriate error message.

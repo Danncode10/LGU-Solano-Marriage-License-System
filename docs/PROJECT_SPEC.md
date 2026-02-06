@@ -49,9 +49,9 @@ The system must evaluate the ages of both the Male (M) and Female (F) applicants
 
 ## 4. Workflows
 
-### Phase 1: Applicant Intake (Public)
+### Phase 1: Applicant Intake
 
-1. Applicants fill out a Next.js form (Name, Age, Address, Parents' Info).
+1. Applicants can fill out a Next.js form (Name, Age, Address, Parents' Info) themselves (public-facing), OR an employee can assist them by filling out the form on their behalf through the internal system.
 2. Data is saved to Supabase `applications` table.
 3. A **Unique 6-Character Code** (e.g., `000-010`) is generated and shown to the couple. This code serves as an application index for admins to check applications and for employees to retrieve applications and take photos via the website on their phones.
 

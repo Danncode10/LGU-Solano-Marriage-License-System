@@ -2,19 +2,19 @@
 
 ## 1.1 Problem Statement
 
-Users (LCR employees and applicants) struggle with the manual and often error-prone process of marriage license application intake and document generation because it is time-consuming and prone to legal non-compliance. This causes inefficiencies for the LCR and potential delays/issues for applicants, resulting in a suboptimal and outdated system.
+Users (LCR employees and applicants) struggle with the manual and often error-prone process of marriage license application intake and document generation because it is time-consuming and prone to legal non-compliance. This causes inefficiencies for the LCR and potential delays/issues for applicants, resulting in a suboptimal and outdated system. This problem is exacerbated by applicants who may lack access to email or digital literacy, requiring alternative intake methods.
 
 ---
 
 ## 1.2 Target Users
 
-Primary users are LCR employees with moderate technical skill, mostly using desktop/laptop devices. Secondary users are applicants who will use various devices. Admins are also identified as users.
+Primary users are LCR employees with moderate technical skill, mostly using desktop/laptop devices. Secondary users are applicants, who may interact directly with the system via various devices or be assisted by an LCR employee. Admins are also identified as users.
 
 ---
 
 ## 1.3 Project Goals
 
-The project succeeds if LCR employees can automate the marriage license application intake and generate legally compliant Excel documents without manual data entry errors or non-compliance issues.
+The project succeeds if LCR employees can efficiently automate marriage license application intake (both self-service and employee-assisted) and consistently generate legally compliant Excel documents without manual data entry errors or non-compliance issues.
 
 ---
 
@@ -27,49 +27,51 @@ Currently, there seem to be no direct digital competitors for this specific loca
 ## 1.5 Feature Definition & Scope Control
 
 MUST:
-*   Applicant intake form (Next.js)
-*   Data saving to Supabase `applications` table
+*   Flexible Applicant intake form (Next.js) - allows both self-service public submission and employee-assisted submission within the internal system.
+*   Data saving to Supabase `applications` table.
 *   Unique 6-Character Code generation (e.g., `000-010`), serving as an application index for admins to check applications and for employees to retrieve applications and take photos via the website on their phones.
-*   Employee login (Supabase Auth - Role: `employee`)
-*   Retrieve application by Unique Code
-*   Webcam photo capture and upload to Supabase Storage
-*   "Generate License" functionality
-*   FastAPI backend for document generation
-*   `openpyxl` for Excel generation
-*   Age-based and address-based sheet generation logic
-*   Data and photo injection into Excel
-*   Admin role with full access (manage employees, view logs)
-*   Employee role (search, take photos, generate/download files)
-*   Row Level Security (RLS) for applicants
-*   Pydantic models for validation
-*   Excel cleanup (removing irrelevant sheets)
+*   Employee login (Supabase Auth - Role: `employee`).
+*   Retrieve application by Unique Code.
+*   Webcam photo capture and upload to Supabase Storage.
+*   "Generate License" functionality.
+*   FastAPI backend for document generation.
+*   `openpyxl` for Excel generation.
+*   Age-based and address-based sheet generation logic.
+*   Data and photo injection into Excel.
+*   Admin role with full access (manage employees, view logs).
+*   Employee role (search, intake assistance, take photos, generate/download files).
+*   Row Level Security (RLS) for applicants.
+*   Pydantic models for validation.
+*   Excel cleanup (removing irrelevant sheets).
 
 NICE:
-*   Advanced reporting features
-*   More comprehensive audit trails
-*   User interface enhancements beyond core functionality
+*   Advanced reporting features.
+*   More comprehensive audit trails.
+*   User interface enhancements beyond core functionality.
 
 OUT:
-*   Features related to other government services
-*   Complex integrations with external systems beyond Supabase
-*   Non-core document types
+*   Features related to other government services.
+*   Complex integrations with external systems beyond Supabase.
+*   Non-core document types.
 
 ---
 
 ## 1.6 Platform & Project Type
 
-The system is a web application accessible via a browser. It is built as an internal tool for the LCR, with a public-facing intake form. There is no explicit mention of expansion to mobile, AI, or robotics, nor does it require real-time processing beyond standard web application responsiveness. It integrates with webcam hardware for photo capture.
+The system is a web application accessible via a browser. It is built as an internal tool for the LCR, with a public-facing intake form that can also be used by employees to assist applicants. There is no explicit mention of expansion to mobile, AI, or robotics, nor does it require real-time processing beyond standard web application responsiveness. It integrates with webcam hardware for photo capture.
 
 ---
 
 ## 1.7 User Requirements
 
 *   **Applicants:**
-    *   Fill out a Next.js form with personal and parental information.
+    *   Fill out a Next.js form with personal and parental information (self-service).
+    *   Can provide information to an LCR employee to have their application submitted on their behalf.
     *   Receive a Unique 6-Character Code upon submission.
     *   Restricted from reading other applicants' data.
 *   **Employees:**
     *   Log in to the system.
+    *   Ability to submit applications on behalf of applicants.
     *   Search and retrieve applications using the Unique 6-Character Code (which can be input from a phone via the website).
     *   Use a built-in webcam or phone camera to take applicant photos.
     *   Upload photos to Supabase Storage.
@@ -85,7 +87,7 @@ The system is a web application accessible via a browser. It is built as an inte
     *   Validation errors for age ranges must be handled gracefully (Pydantic models).
     *   Clear feedback for successful application submission and document generation.
 
-*   **Accessibility Needs:** Not explicitly mentioned in the project spec, implying standard web accessibility practices should be followed for both the public-facing form and internal employee interface.
+*   **Accessibility Needs:** Not explicitly mentioned in the project spec, implying standard web accessibility practices should be followed for both the public-facing and internal employee interfaces.
 
 ---
 
@@ -95,7 +97,7 @@ The system is a web application accessible via a browser. It is built as an inte
     *   LCR Employees/Admins: Likely a small number (e.g., 5-10 concurrent users).
     *   Applicants: Potentially higher, but not concurrent for document generation (intake is asynchronous). (e.g., 50-100 unique applicants per day).
 *   **Response time expectations:**
-    *   Applicant form submission: Fast, near real-time.
+    *   Applicant form submission (self-service or employee-assisted): Fast, near real-time.
     *   Employee application retrieval: Fast, near real-time.
     *   Document generation: Reasonable, depending on complexity, but should not exceed a few seconds (e.g., < 5 seconds).
 *   **Availability requirements:** High availability during LCR operating hours.
@@ -107,7 +109,7 @@ The system is a web application accessible via a browser. It is built as an inte
 
 ## 1.9 Software Evolution
 
-*   The system's core functionality includes applicant intake, employee processing (search, photo, generate), and legally compliant document generation based on age and address logic. The focus is on automating the current manual process.
+*   The system's core functionality includes flexible applicant intake (self-service and employee-assisted), employee processing (search, photo, generate), and legally compliant document generation based on age and address logic. The focus is on automating the current manual process.
 
 ---
 
